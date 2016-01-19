@@ -8,7 +8,7 @@ public final class TopSort {
         order[0] = 0;
         for(int ix=1; ix<p.numJobs; ix++) {
             for(int j=0; j<p.numJobs; j++) {
-                if(!activityInOrderBefore(p, j, order, ix) && !hasMissingPredBefore(p, j, order, ix)) {
+                if(!activityInOrderBefore(j, order, ix) && !hasMissingPredBefore(p.adjMx, j, order, ix)) {
                     order[ix] = j;
                     break;
                 }
@@ -18,19 +18,26 @@ public final class TopSort {
         return order;
     }
 
-    private static boolean activityInOrderBefore(Project p, int j, int[] order, int ix) {
+    public static boolean activityInOrderBefore(int j, int[] order, int ix) {
         for(int ix2 = 0; ix2 < ix; ix2++)
             if(order[ix2] == j)
                 return true;
+
         return false;
     }
 
-    private static boolean hasMissingPredBefore(Project p, int j, int[] order, int ix) {
-        for(int i=0; i<p.numJobs; i++)
-            if(p.adjMx[i][j])
-                for(int ix2 = 0; ix2 < ix; ix2++)
-                    if(order[ix2] == i)
-                        return true;
+    public static boolean hasMissingPredBefore(boolean[][] adjMx, int j, int[] order, int ix) {
+        for(int i=0; i<order.length; i++)
+            if(adjMx[i][j]) {
+                boolean found = false;
+                for (int ix2 = 0; ix2 < ix; ix2++)
+                    if (order[ix2] == i) {
+                        found = true;
+                        break;
+                    }
+                if(!found) return true;
+            }
+
         return false;
     }
 
