@@ -1,4 +1,4 @@
-package org.andreschnabel.schedulevalidator.tests;
+package org.andreschnabel.schedulevalidatortests;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

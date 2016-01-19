@@ -1,4 +1,4 @@
-package org.andreschnabel.schedulevalidator.tests;
+package org.andreschnabel.schedulevalidatortests;
 
 import org.andreschnabel.schedulevalidator.Utils;
 
