@@ -4,7 +4,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public final class Utils {
@@ -36,9 +35,7 @@ public final class Utils {
     }
 
     public static void appendLineToFile(String line, String filename) throws Exception {
-        List<String> lines = new LinkedList<>();
-        lines.add(line);
-        Files.write(Paths.get(filename), lines, StandardOpenOption.APPEND);
+        Files.write(Paths.get(filename), line.getBytes(), StandardOpenOption.APPEND);
     }
 
     public static float pow(float base, float exp) {
