@@ -8,7 +8,7 @@ public class ScheduleGenerator {
         this.p = p;
     }
 
-    protected boolean resourceFeasible(int[][] resRem, int j, int stj) {
+    public boolean resourceFeasible(int[][] resRem, int j, int stj) {
         for(int tau = stj + 1; tau <= stj + p.durations[j]; tau++) {
             for(int r = 0; r < p.numRes; r++) {
                 if(resRem[r][tau] < 0)
@@ -18,7 +18,7 @@ public class ScheduleGenerator {
         return true;
     }
 
-    protected int[][] initResidualCapacities(int[] zr) {
+    public int[][] initResidualCapacities(int[] zr) {
         int[][] resRem = new int[p.numRes][p.numPeriods];
         for(int r = 0; r < p.numRes; r++) {
             for(int t = 0; t < p.numPeriods; t++) {
@@ -28,7 +28,7 @@ public class ScheduleGenerator {
         return resRem;
     }
 
-    protected void scheduleJob(int[][] resRem, int[] sts, int j, int stj) {
+    public void scheduleJob(int[][] resRem, int[] sts, int j, int stj) {
         sts[j] = stj;
         for(int tau = stj +1; tau <= stj + p.durations[j]; tau++) {
             for(int r = 0; r < p.numRes; r++) {
@@ -37,7 +37,7 @@ public class ScheduleGenerator {
         }
     }
 
-    protected int lastPredFinishingTime(int[] sts, int job) {
+    public int lastPredFinishingTime(int[] sts, int job) {
         int t = 0;
         for(int i = 0; i < p.numJobs; i++) {
             if(p.adjMx[i][job] && sts[i] + p.durations[i] > t) {
