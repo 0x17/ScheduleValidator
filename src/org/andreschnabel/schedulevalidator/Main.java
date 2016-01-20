@@ -14,7 +14,7 @@ public class Main {
         float oprofit = Utils.deserializeProfitFromFile(args[2]);
         String methodName = args[3];
 
-        String validStr1 = ScheduleProperties.isScheduleValid(p, sts) ? "valid" : "invalid";
+        String validStr1 = new ScheduleProperties(p).isScheduleValid(sts) ? "valid" : "invalid";
         System.out.println("Schedule is " + validStr1 + "!");
 
         String validStr2 = (oprofit == p.profit(sts)) ? "valid" : "invalid";

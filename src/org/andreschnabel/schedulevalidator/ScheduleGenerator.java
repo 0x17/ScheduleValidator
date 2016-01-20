@@ -8,10 +8,10 @@ public class ScheduleGenerator {
         this.p = p;
     }
 
-    public boolean resourceFeasible(int[][] resRem, int j, int stj) {
+    public boolean resourceFeasible(int[][] resRem, int[][] demands, int j, int stj) {
         for(int tau = stj + 1; tau <= stj + p.durations[j]; tau++) {
             for(int r = 0; r < p.numRes; r++) {
-                if(resRem[r][tau] < 0)
+                if(resRem[r][tau] - demands[j][r] < 0)
                     return false;
             }
         }

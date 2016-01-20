@@ -18,7 +18,7 @@ public class TopSortTest {
             {0, 3, 1, 2, 4},
             {0, 1, 3, 2, 4}
         };
-        Project p = new Project("MiniBeispiel.sm");
+        Project p = new Project(TestHelpers.TEST_FILE);
         int[] order = TopSort.computeTopologicalOrder(p);
         assertTrue(Arrays.stream(feasibleOrders).anyMatch((fo) -> Arrays.equals(fo, order)));
     }

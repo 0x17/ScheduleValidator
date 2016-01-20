@@ -10,6 +10,8 @@ import static org.junit.Assert.fail;
 
 public final class TestHelpers {
 
+    public static String TEST_FILE = "MiniBeispiel.sm";
+
     @FunctionalInterface
     public interface CheckedConsumer<T> {
         void accept(T t) throws Exception;

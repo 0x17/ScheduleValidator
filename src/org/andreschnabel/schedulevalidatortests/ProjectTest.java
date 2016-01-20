@@ -14,7 +14,7 @@ public class ProjectTest {
 
     @Before
     public void setUp() throws Exception {
-        p = new Project("MiniBeispiel.sm");
+        p = new Project(TestHelpers.TEST_FILE);
     }
 
     @Test

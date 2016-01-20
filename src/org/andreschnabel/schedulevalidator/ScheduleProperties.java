@@ -2,17 +2,23 @@ package org.andreschnabel.schedulevalidator;
 
 public final class ScheduleProperties {
 
-    public static boolean resourceFeasible(ProjectWithOvertime p, int[] sts) {
+    private final ProjectWithOvertime p;
+
+    public ScheduleProperties(ProjectWithOvertime p) {
+        this.p = p;
+    }
+
+    public boolean resourceFeasible(int[] sts) {
         for(int t = 0; t < p.numPeriods; t++) {
             for(int r = 0; r < p.numRes; r++) {
-                if(cumulatedDemand(p, sts, r, t) > p.capacities[r] + p.zmax[r])
+                if(cumulatedDemand(sts, r, t) > p.capacities[r] + p.zmax[r])
                     return false;
             }
         }
         return true;
     }
 
-    public static int cumulatedDemand(ProjectWithOvertime p, int[] sts, int r, int t) {
+    public int cumulatedDemand(int[] sts, int r, int t) {
         int cdemand = 0;
         for(int j=0; j<p.numJobs; j++) {
             if(sts[j] + 1 <= t && t <= sts[j] + p.durations[j]) {
@@ -22,7 +28,7 @@ public final class ScheduleProperties {
         return cdemand;
     }
 
-    public static boolean orderFeasible(ProjectWithOvertime p, int[] sts) {
+    public boolean orderFeasible(int[] sts) {
         for(int j=0; j<p.numJobs; j++) {
             for(int i=0; i<p.numJobs; i++) {
                 if(p.adjMx[i][j] && sts[i] + p.durations[i] > sts[j])
@@ -32,18 +38,18 @@ public final class ScheduleProperties {
         return true;
     }
 
-    public static float totalCosts(ProjectWithOvertime p, int[] sts) {
+    public float totalCosts(int[] sts) {
         float costs = 0.0f;
         for(int r = 0; r < p.numRes; r++) {
             for(int t = 0; t < p.numPeriods; t++) {
-                int cdem = cumulatedDemand(p, sts, r, t);
+                int cdem = cumulatedDemand(sts, r, t);
                 costs += p.kappa[r] * Math.max(0, cdem - p.capacities[r]);
             }
         }
         return costs;
     }
 
-    public static boolean isScheduleValid(ProjectWithOvertime p, int[] sts) {
-        return orderFeasible(p, sts) && resourceFeasible(p, sts);
+    public boolean isScheduleValid(int[] sts) {
+        return orderFeasible(sts) && resourceFeasible(sts);
     }
 }

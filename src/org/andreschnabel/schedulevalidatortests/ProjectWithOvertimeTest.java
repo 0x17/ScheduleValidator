@@ -12,11 +12,14 @@ public class ProjectWithOvertimeTest {
 
     @Before
     public void setUp() throws Exception {
-        p = new ProjectWithOvertime("MiniBeispiel.sm");
+        p = new ProjectWithOvertime(TestHelpers.TEST_FILE);
     }
 
     @Test
     public void testProfit() throws Exception {
+        for(int t=1; t<p.numPeriods; t++) {
+            //assertTrue(p.revenues[t-1] >= p.revenues[t]);
+        }
 
     }
 }
