@@ -1,10 +1,13 @@
 package org.andreschnabel.schedulevalidator;
 
+import java.util.Arrays;
+
 public class ProjectWithOvertime extends Project {
 
     private final ScheduleProperties props;
     public float[] kappa, revenues;
     public int[] zmax;
+    public int[] zzero;
 
     public ProjectWithOvertime(String filename) throws Exception {
         super(filename);
@@ -22,16 +25,15 @@ public class ProjectWithOvertime extends Project {
     }
 
     private void computeRevenueFunction() {
-        int[] zeroOc = new int[numRes];
-        for(int r=0; r<numRes; r++)
-            zeroOc[r] = 0;
+        zzero = new int[numRes];
+        Arrays.fill(zzero, 0);
 
         int tkappa = computeTKappa();
 
-        int[] ess = new EarliestStartSchedule(this).computeESS(topOrder);
+        int[] ess = new EarliestStartSchedule(this).computeESS();
 
         int minMs = Math.max(makespan(ess), tkappa);
-        int maxMs = makespan(new SerialSGS(this).scheduleJobs(topOrder, zeroOc));
+        int maxMs = makespan(new SerialSGS(this).scheduleJobs(topOrder, zzero));
         float maxCosts = props.totalCosts(ess);
 
         revenues = new float[numPeriods];
@@ -53,7 +55,7 @@ public class ProjectWithOvertime extends Project {
         return tkappa;
     }
 
-    private int makespan(int[] sts) {
+    public int makespan(int[] sts) {
         return sts[sts.length-1];
     }
 

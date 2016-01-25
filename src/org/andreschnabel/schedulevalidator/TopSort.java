@@ -19,6 +19,7 @@ public final class TopSort {
     }
 
     public static boolean activityInOrderBefore(int j, int[] order, int ix) {
+        //return IntStream.range(0, ix).anyMatch((ix2) -> order[ix2] == j);
         for(int ix2 = 0; ix2 < ix; ix2++)
             if(order[ix2] == j)
                 return true;

@@ -6,9 +6,9 @@ public class EarliestStartSchedule extends ScheduleGenerator {
         super(p);
     }
 
-    public int[] computeESS(int[] order) {
+    public int[] computeESS() {
         int[] ess = new int[p.numJobs];
-        for(int job : order)
+        for(int job : p.topOrder)
             ess[job] = lastPredFinishingTime(ess, job);
         return ess;
     }
