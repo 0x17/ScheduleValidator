@@ -1,6 +1,5 @@
 package org.andreschnabel.schedulevalidator;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -29,8 +28,7 @@ public class MakespanApproximations {
 
     public static void main(String[] args) throws Exception {
         if(args.length != 1) throw new Exception("Wrong number of arguments!");
-        MakespanApproximations ma = new MakespanApproximations(args[0]);
-        ma.checkEq();
+        new MakespanApproximations(args[0]).checkEq();
     }
 
 }
