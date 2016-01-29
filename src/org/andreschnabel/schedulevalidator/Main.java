@@ -28,9 +28,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         cmdLineRunner(args);
-
-        //ProjectWithOvertime p = new ProjectWithOvertime("QBWLBeispiel.sm");
-        //System.out.println("");
     }
 
 }
