@@ -1,11 +1,17 @@
 package org.andreschnabel.schedulevalidator;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
 
+    private static final String SKIP_FILE = "plsdoskip";
+
     public static void cmdLineRunner(String[] args) throws Exception {
+        Path sfPath = Paths.get(SKIP_FILE);
+        Files.createFile(sfPath);
+
         if(args.length != 4) {
             System.out.println("Wrong number of arguments!");
             System.out.println("Usage: java -jar ScheduleValidator.jar QBWLBeispiel.sm");
@@ -27,8 +33,8 @@ public class Main {
         String validStr2 = profitValid ? "valid" : "invalid";
         System.out.println("Profit is " + validStr2 + "!");
 
-        if(!schedValid || !profitValid)
-            Files.createFile(Paths.get("plsdoskip"));
+        if(schedValid && profitValid)
+            Files.deleteIfExists(sfPath);
     }
 
     public static void main(String[] args) throws Exception {
