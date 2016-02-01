@@ -12,7 +12,7 @@ public class Main {
         Path sfPath = Paths.get(SKIP_FILE);
         Files.createFile(sfPath);
 
-        if(args.length != 4) {
+        if(args.length != 1) {
             System.out.println("Wrong number of arguments!");
             System.out.println("Usage: java -jar ScheduleValidator.jar QBWLBeispiel.sm");
             return;
