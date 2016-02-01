@@ -1,9 +1,13 @@
 package org.andreschnabel.schedulevalidatortests;
 
 import org.andreschnabel.schedulevalidator.Utils;
+import org.junit.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +26,7 @@ public class UtilsTest {
 
     @org.junit.Test
     public void testDeserializeScheduleFromFile() throws Exception {
-        TestHelpers.runTestOnTempFile("testDeserializeScheduleFromFile", "0->0\n1->1\n2->2\n3->4\n4->8", (fn) ->
+        TestHelpers.runTestOnTempFile("testDeserializeScheduleFromFile", "1->0\n2->1\n3->2\n4->4\n5->8", (fn) ->
                 assertArrayEquals(new int[] { 0, 1, 2, 4, 8 }, Utils.deserializeScheduleFromFile(fn)));
     }
 
@@ -43,5 +47,12 @@ public class UtilsTest {
     @org.junit.Test
     public void testPow() throws Exception {
         assertEquals(4.0f, Utils.pow(2.0f, 2.0f), 0.001f);
+    }
+
+    @Test
+    public void testDeserializeScheduleFromLines() {
+        int[] sts = Utils.deserializeScheduleFromLines(Arrays.asList("    1->0 ", " 2->4    ", "    "));
+        int[] expSts = { 0, 4 };
+        assertArrayEquals(expSts, sts);
     }
 }

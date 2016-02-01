@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public final class Utils {
     public static ArrayList<Integer> intParts(String line) {
@@ -20,14 +21,18 @@ public final class Utils {
         return Integer.parseInt(line.split(":")[1].trim());
     }
 
-    public static int[] deserializeScheduleFromFile(String filename) throws Exception {
-        List<String> lines = Files.readAllLines(Paths.get(filename));
-        int[] sts = new int[lines.size()];
+    public static int[] deserializeScheduleFromLines(List<String> lines) {
+        int[] sts = new int[(int)lines.stream().filter((line) -> line.contains("->")).count()];
         for(String line : lines) {
-            String[] parts = line.split("->");
-            sts[Integer.valueOf(parts[0])] = Integer.valueOf(parts[1]);
+            if(!line.contains("->")) continue;
+            String[] parts = line.trim().split("->");
+            sts[Integer.valueOf(parts[0])-1] = Integer.valueOf(parts[1]);
         }
         return sts;
+    }
+
+    public static int[] deserializeScheduleFromFile(String filename) throws Exception {
+        return deserializeScheduleFromLines(Files.readAllLines(Paths.get(filename)));
     }
 
     public static float deserializeProfitFromFile(String filename) throws Exception {
