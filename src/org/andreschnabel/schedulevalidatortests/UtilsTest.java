@@ -33,6 +33,8 @@ public class UtilsTest {
     @org.junit.Test
     public void testDeserializeProfitFromFile() throws Exception {
         TestHelpers.runTestOnTempFile("testDeserializeProfitFromFile", "23.5\n", (fn) -> assertEquals(23.5f, Utils.deserializeProfitFromFile(fn), 0.001f));
+        TestHelpers.runTestOnTempFile("testDeserializeProfitFromFile", "      23.5       \n\n", (fn) -> assertEquals(23.5f, Utils.deserializeProfitFromFile(fn), 0.001f));
+        TestHelpers.runTestOnTempFile("testDeserializeProfitFromFile", "infes", (fn) -> assertTrue(Float.isNaN(Utils.deserializeProfitFromFile(fn))));
     }
 
     @org.junit.Test

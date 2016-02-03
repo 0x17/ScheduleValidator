@@ -36,7 +36,8 @@ public final class Utils {
     }
 
     public static float deserializeProfitFromFile(String filename) throws Exception {
-        return Float.valueOf(Files.readAllLines(Paths.get(filename)).get(0));
+        List<String> lines = Files.readAllLines(Paths.get(filename));
+        return lines.get(0).contains("infes") ? Float.NaN : Float.valueOf(lines.get(0));
     }
 
     public static void appendLineToFile(String line, String filename) throws Exception {

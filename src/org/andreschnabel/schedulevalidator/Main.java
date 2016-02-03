@@ -20,12 +20,13 @@ public class Main {
 
         ProjectWithOvertime p = new ProjectWithOvertime(args[0]);
         int[] sts = Utils.deserializeScheduleFromFile("myschedule.txt");
-        float oprofit = Utils.deserializeProfitFromFile("myprofit.txt");
-
-        float epsilon = 0.1f;
 
         boolean schedValid = new ScheduleProperties(p).isScheduleValid(sts);
-        boolean profitValid = Math.abs(oprofit - p.profit(sts)) < epsilon;
+
+        float oprofit = Utils.deserializeProfitFromFile("myprofit.txt");
+
+        float EPSILON = 0.1f;
+        boolean profitValid = Math.abs(oprofit - p.profit(sts)) < EPSILON;
 
         String validStr1 = schedValid ? "valid" : "invalid";
         System.out.println("Schedule is " + validStr1 + "!");
