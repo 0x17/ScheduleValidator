@@ -37,8 +37,12 @@ public class ProjectWithOvertime extends Project {
         float maxCosts = props.totalCosts(ess);
 
         revenues = new float[numPeriods];
-        for(int t=0; t<numPeriods; t++)
-            revenues[t] = maxCosts - maxCosts / Utils.pow(maxMs - minMs, 2.0f) * Utils.pow(t - minMs, 2.0f);
+        for(int t=0; t<numPeriods; t++) {
+            revenues[t] =
+                    (minMs == maxMs || t < minMs) ? maxCosts :
+                    (t > maxMs) ? 0.0f :
+                    maxCosts - maxCosts / Utils.pow(maxMs - minMs, 2.0f) * Utils.pow(t - minMs, 2.0f);
+        }
     }
 
     private int computeTKappa() {
