@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class ProjectWithOvertime extends Project {
 
     private final ScheduleProperties props;
+
     public float[] kappa, revenues;
     public int[] zmax;
     public int[] zzero;
@@ -21,13 +22,13 @@ public class ProjectWithOvertime extends Project {
             zmax[r] = capacities[r] / 2;
         }
 
+        zzero = new int[numRes];
+        Arrays.fill(zzero, 0);
+
         computeRevenueFunction();
     }
 
     private void computeRevenueFunction() {
-        zzero = new int[numRes];
-        Arrays.fill(zzero, 0);
-
         int tkappa = computeTKappa();
 
         int[] ess = new EarliestStartSchedule(this).computeESS();
