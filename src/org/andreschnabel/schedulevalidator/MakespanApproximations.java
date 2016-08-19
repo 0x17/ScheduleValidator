@@ -21,14 +21,19 @@ public class MakespanApproximations {
         return p.makespan(sgs.scheduleJobs(p.topOrder, p.zmax));
     }
 
-    public void checkEq() throws Exception {
+    public void checkEq(String outPath) throws Exception {
         if(makespanWithoutOvertime() - makespanWithMaxOvertime() == 0)
-            Files.createFile(Paths.get("plsdoskip"));
+            Files.createFile(Paths.get(outPath + "plsdoskip"));
     }
 
     public static void main(String[] args) throws Exception {
-        if(args.length != 1) throw new Exception("Wrong number of arguments!");
-        new MakespanApproximations(args[0]).checkEq();
+        if(args.length != 2) throw new Exception("Wrong number of arguments!");
+        String instanceFn, outPath;
+        outPath = args[0];
+        if(!Files.exists(Paths.get(outPath)))
+            Files.createDirectory(Paths.get(outPath));
+        instanceFn = args[1];
+        new MakespanApproximations(instanceFn).checkEq(outPath);
     }
 
 }

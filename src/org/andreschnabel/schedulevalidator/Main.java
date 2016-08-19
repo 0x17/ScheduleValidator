@@ -9,21 +9,23 @@ public class Main {
     private static final String SKIP_FILE = "plsdoskip";
 
     public static void cmdLineRunner(String[] args) throws Exception {
-        Path sfPath = Paths.get(SKIP_FILE);
-        Files.createFile(sfPath);
-
-        if(args.length != 1) {
+        if(args.length != 2) {
             System.out.println("Wrong number of arguments!");
-            System.out.println("Usage: java -jar ScheduleValidator.jar QBWLBeispiel.sm");
+            System.out.println("Usage: java -jar ScheduleValidator.jar j30_1secs/ QBWLBeispiel.sm");
             return;
         }
 
-        ProjectWithOvertime p = new ProjectWithOvertime(args[0]);
-        int[] sts = Utils.deserializeScheduleFromFile("myschedule.txt");
+        String outPath = args[0];
+
+        Path sfPath = Paths.get(outPath + SKIP_FILE);
+        Files.createFile(sfPath);
+
+        ProjectWithOvertime p = new ProjectWithOvertime(args[1]);
+        int[] sts = Utils.deserializeScheduleFromFile(outPath + "myschedule.txt");
 
         boolean schedValid = new ScheduleProperties(p).isScheduleValid(sts);
 
-        float oprofit = Utils.deserializeProfitFromFile("myprofit.txt");
+        float oprofit = Utils.deserializeProfitFromFile(outPath + "myprofit.txt");
 
         float EPSILON = 0.1f;
         boolean profitValid = Math.abs(oprofit - p.profit(sts)) < EPSILON;
