@@ -35,6 +35,7 @@ public class Main {
 
         String validStr2 = profitValid ? "valid" : "invalid";
         System.out.println("Profit is " + validStr2 + "!");
+        System.out.println("Expected profit = " + p.profit(sts) + "; Actual profit = " + oprofit);
 
         if(schedValid && profitValid)
             Files.deleteIfExists(sfPath);

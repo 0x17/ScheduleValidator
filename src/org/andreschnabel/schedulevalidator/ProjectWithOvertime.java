@@ -33,7 +33,7 @@ public class ProjectWithOvertime extends Project {
 
         int[] ess = new EarliestStartSchedule(this).computeESS();
 
-        int minMs = Math.max(makespan(ess), tkappa);
+        int minMs = makespan(ess); //Math.max(makespan(ess), tkappa);
         int maxMs = makespan(new SerialSGS(this).scheduleJobs(topOrder, zzero));
         float maxCosts = props.totalCosts(ess);
 
