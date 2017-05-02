@@ -29,7 +29,7 @@ public class ProjectWithOvertime extends Project {
     }
 
     private void computeRevenueFunction() {
-        int tkappa = computeTKappa();
+        //int tkappa = computeTKappa();
 
         int[] ess = new EarliestStartSchedule(this).computeESS();
 

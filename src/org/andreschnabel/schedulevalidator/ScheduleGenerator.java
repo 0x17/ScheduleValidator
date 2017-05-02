@@ -2,7 +2,7 @@ package org.andreschnabel.schedulevalidator;
 
 public class ScheduleGenerator {
 
-    Project p;
+    final Project p;
 
     public ScheduleGenerator(Project p) {
         this.p = p;
