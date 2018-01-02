@@ -18,12 +18,24 @@ public class Main {
         String outPath = args[0];
 
         Path sfPath = Paths.get(outPath + SKIP_FILE);
-        Files.createFile(sfPath);
+        if(!Files.exists(sfPath))
+            Files.createFile(sfPath);
 
         ProjectWithOvertime p = new ProjectWithOvertime(args[1]);
         int[] sts = Utils.deserializeScheduleFromFile(outPath + "myschedule.txt");
 
         boolean schedValid = new ScheduleProperties(p).isScheduleValid(sts);
+
+        if(!schedValid) {
+            System.out.print("Schedule infeasible: ");
+            ScheduleProperties props = new ScheduleProperties(p);
+            if(!props.orderFeasible(sts)) {
+                System.out.println("Schedule is not order feasible: " + props.orderInfeasibilityCause(sts));
+            }
+            if(!props.resourceFeasible(sts)) {
+                System.out.println("Schedule is not resource feasible!");
+            }
+        }
 
         float oprofit = Utils.deserializeProfitFromFile(outPath + "myprofit.txt");
 

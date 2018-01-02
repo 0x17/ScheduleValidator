@@ -43,6 +43,11 @@ public class SchedulePropertiesTest {
     }
 
     @Test
+    public void testOrderInfeasibilityCause() throws Exception {
+        fail("Implement me!");
+    }
+
+    @Test
     public void testTotalCosts() throws Exception {
         assertEquals(0.0f, props.totalCosts(new int[] {0, 0, 2, 4, 6}), 0.0f);
         assertEquals(1.0f, props.totalCosts(new int[] {0, 0, 2, 0, 4}), 0.0f);

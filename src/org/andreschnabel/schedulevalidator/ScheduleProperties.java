@@ -1,5 +1,7 @@
 package org.andreschnabel.schedulevalidator;
 
+import java.util.function.BiFunction;
+
 public final class ScheduleProperties {
 
     private final ProjectWithOvertime p;
@@ -28,14 +30,22 @@ public final class ScheduleProperties {
         return cdemand;
     }
 
-    public boolean orderFeasible(int[] sts) {
+    private <T> T orderFeasibilityCommon(int[] sts, BiFunction<Integer, Integer, T> func, T def) {
         for(int j=0; j<p.numJobs; j++) {
             for(int i=0; i<p.numJobs; i++) {
                 if(p.adjMx[i][j] && sts[i] + p.durations[i] > sts[j])
-                    return false;
+                    return func.apply(i, j);
             }
         }
-        return true;
+        return def;
+    }
+
+    public boolean orderFeasible(int[] sts) {
+        return orderFeasibilityCommon(sts, (i, j) -> false, true);
+    }
+
+    public String orderInfeasibilityCause(int[] sts) {
+        return orderFeasibilityCommon(sts, (i, j) -> (i+1) + "->" + (j+1) + " but ST("+(i+1)+")+d("+(i+1)+")="+sts[i]+"+"+p.durations[i]+"="+(sts[i]+p.durations[i])+">"+sts[j]+"=ST("+(j+1)+")!", "");
     }
 
     public float totalCosts(int[] sts) {
