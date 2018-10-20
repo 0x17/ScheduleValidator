@@ -15,7 +15,7 @@ public class Main {
             return;
         }
 
-        String outPath = args[0];
+        String outPath = args[0].equals(".") ? "" : args[0];
 
         Path sfPath = Paths.get(outPath + SKIP_FILE);
         if(!Files.exists(sfPath))

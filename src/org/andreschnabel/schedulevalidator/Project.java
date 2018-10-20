@@ -3,7 +3,9 @@ package org.andreschnabel.schedulevalidator;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Project {
 
@@ -17,6 +19,69 @@ public class Project {
     public int[] topOrder;
 
     public Project(String filename) throws Exception {
+        if(filename.endsWith(".sm")) {
+            parseProGen(filename);
+        } else if(filename.endsWith(".rcp")) {
+            parsePattersonFormat(filename);
+        }
+    }
+
+    private void parsePattersonFormat(String filename) throws Exception {
+        boolean cardinalitiesKnown = false, continueSuccs = false;
+        int succRemaining = 0, j = 0;
+
+        List<String> lines = Files.lines(Paths.get(filename)).collect(Collectors.toList());
+
+        for(String line : lines) {
+            final Integer[] values = Utils.intPartsArr(line);
+
+            if(succRemaining > 0) {
+                int k;
+                for(k=0; k<succRemaining && k<values.length; k++) {
+                    adjMx[j][values[k]-1] = true;
+                }
+                succRemaining -= k;
+                if(succRemaining <= 0) {
+                    j++;
+                }
+            }
+            // #jobs #res
+            else if(values.length == 2) {
+                numJobs = values[0];
+                numRes = values[1];
+                adjMx = new boolean[numJobs][numJobs];
+                durations = new int[numJobs];
+                demands = new int[numJobs][numRes];
+                capacities = new int[numRes];
+                cardinalitiesKnown = true;
+            } else if(cardinalitiesKnown) {
+                // K1 K2 ...
+                if(values.length == numRes) {
+                    capacities = Utils.integerToIntArray(values);
+                    // dj kj1 kj2 .. #succs succ1 succ2 ...
+                } else if(values.length >= 1 + numRes + 1) {
+                    durations[j] = values[0];
+                    for(int r=0; r<numRes; r++)
+                        demands[j][r] = values[1+r];
+                    int succCount = values[1+numRes];
+                    int k;
+                    for(k=0; k<succCount && k+2+numRes<values.length; k++) {
+                        int vix = 2+numRes+k;
+                        adjMx[j][values[vix]-1] = true;
+                    }
+                    if(k+2+numRes >= values.length && k < succCount) {
+                        succRemaining = succCount - k;
+                    } else {
+                        j++;
+                    }
+                }
+            }
+        }
+
+        numPeriods = Arrays.stream(durations).sum()+1;
+    }
+
+    private void parseProGen(String filename) throws Exception {
         List<String> lines = Files.readAllLines(Paths.get(filename));
 
         int ctr = 0;

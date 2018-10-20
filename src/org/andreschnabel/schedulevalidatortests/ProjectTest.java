@@ -4,21 +4,20 @@ import org.andreschnabel.schedulevalidator.Project;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ProjectTest {
 
-    Project p;
+    private Project p1, p2;
 
     @Before
     public void setUp() throws Exception {
-        p = new Project(TestHelpers.TEST_FILE);
+        p1 = new Project(TestHelpers.TEST_FILE);
+        p2 = new Project(TestHelpers.TEST_FILE_PATTERSON);
     }
 
-    @Test
-    public void testConstructor() throws Exception {
+    private void commonAsserts(Project p) {
         assertEquals(5, p.numJobs);
         assertEquals(7, p.numPeriods);
         assertEquals(1, p.numRes);
@@ -43,6 +42,16 @@ public class ProjectTest {
 
         assertEquals(1, p.capacities.length);
         assertEquals(2, p.capacities[0]);
+    }
+
+    @Test
+    public void testConstructor() throws Exception {
+        commonAsserts(p1);
+    }
+
+    @Test
+    public void testPattersonParser() throws Exception {
+        commonAsserts(p2);
     }
 
 

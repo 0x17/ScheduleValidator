@@ -11,6 +11,7 @@ import static org.junit.Assert.fail;
 public final class TestHelpers {
 
     public static String TEST_FILE = "MiniBeispiel.sm";
+    public static String TEST_FILE_PATTERSON = "MiniBeispiel.rcp";
 
     @FunctionalInterface
     public interface CheckedConsumer<T> {
