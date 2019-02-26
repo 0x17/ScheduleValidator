@@ -24,6 +24,7 @@ public class Project {
         } else if(filename.endsWith(".rcp")) {
             parsePattersonFormat(filename);
         }
+        topOrder = TopSort.computeTopologicalOrder(this);
     }
 
     private void parsePattersonFormat(String filename) throws Exception {
@@ -106,8 +107,6 @@ public class Project {
 
             ctr++;
         }
-
-        topOrder = TopSort.computeTopologicalOrder(this);
     }
 
     private void parseCapacities(List<String> lines, int ctr) {
